@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+# aliased as gbrt
+
+def format_commit_info timestamp, time_desc, commit_id, message, committer, ref_name
+  [
+    "#{timestamp.strftime("%y %b %d")}, #{timestamp.strftime("%l:%M%p").downcase}",
+    "(#{time_desc})",
+    commit_id,
+    message,
+    ref_name,
+    committer
+  ]
+end
+
+def render_commit_info timestamp, time_desc, commit_id, message, ref_name, committer, merged
+  [
+    # i commented out timestamp b/c i usually don't really care about this
+    # timestamp,
+    time_desc,
+    "\e[32m#{ref_name}\e[0m",
+    (merged ? "  #{commit_id}" : "+ \e[33m#{commit_id}\e[0m"),
+    (committer + " " * 16)[0..15  ],
+    "\e[#{message[/^Temp/] ? 31 : 90}m#{message.strip[0..90]}\e[0m"
+  ].join(' ') 
+end
+
+
+
+# # Replace (2 years ago) with (2 years)
+# sed -Ee 's/(^[^<]*) ago\)/\1)/' |
+# # Replace (2 years, 5 months) with (2 years)
+# sed -Ee 's/(^[^<]*), [[:digit:]]+ .*months?\)/\1)/' |
+
+
+commit_info = `git branch #{ARGV.join(' ')} | cut -c 3-`.strip.split("\n").reject {|ref_name|
+  ref_name[' -> ']
+}.map {|ref_name|
+  `git log --no-walk --pretty=format:"%ct\n%cr\n%h\n%s\n%cn" '#{ref_name}' --`.strip.split("\n").push(ref_name)
+}.map {|commit_info|
+  [Time.at(commit_info.shift.to_i)].concat(commit_info)
+}.sort_by {|commit_info|
+  commit_info.first # unix timestamp
+}.reverse.map {|commit_info|
+  format_commit_info(*commit_info)
+}.transpose.map {|column|
+  max_col_length = column.sort_by {|i| i.length }.last.length
+  column.map {|i| i.ljust(max_col_length) }
+}.transpose.map {|commit_info|
+  commit_info.push(
+    `git merge-base HEAD #{commit_info[2]}`.chomp[0...7] == commit_info[2]
+  )
+}.each {|commit_info|
+  puts render_commit_info(*commit_info)
+}

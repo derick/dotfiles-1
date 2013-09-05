@@ -1,0 +1,9 @@
+#!/bin/bash
+# aliased as blame
+
+# works like:
+# blame app/models/user.rb
+# 
+# Author DAH 12/19/2012
+
+git blame $1 | mate

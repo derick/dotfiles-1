@@ -1,0 +1,4 @@
+#!/bin/sh
+# probably dont need this since it's defined in git.zsh
+
+git log -1 --pretty=format:%h

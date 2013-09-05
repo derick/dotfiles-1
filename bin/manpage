@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# aliased as manpage
+# script to handle creating a manpage, storing it as PDF, and viewing w/ Preview.app
+# works like:
+# manpage <curl>
+# 
+# Author DAH 12/07/2012
+
+man -t $1 > ~/Dropbox/manpages/$1.man.ps  
+open -a Preview ~/Dropbox/manpages/$1.man.ps

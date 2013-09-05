@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# script to make an audible "beep"
+# works like:
+# run_some_long_command ; beep
+# 
+# Author DAH 12/07/2012
+
+echo -en "\007"

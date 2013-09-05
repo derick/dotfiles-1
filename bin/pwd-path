@@ -1,0 +1,8 @@
+wip
+
+#!/bin/bash
+
+NEW_PATH = ${PWD} | sed 's/\/Users\/dah\//~\//' | sed 's/\/Users\/dah\//~\//'
+NEW_PATH = ${PWD} | sed 's/\/Users\//~\//'
+echo 
+echo ${$(pwd)/U/y}
