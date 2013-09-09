@@ -20,6 +20,7 @@ alias cuu="cd ../../"
 
 # Cisco Navigation
 alias honey="cd ~/HoneyBadger"
+alias hb="cd ~/HoneyBadger"
 alias main="cd ~/HoneyBadger/hb_main"
 alias cas="cd ~/HoneyBadger/hb_case-svc"
 alias order="cd ~/HoneyBadger/hb_order-svc"

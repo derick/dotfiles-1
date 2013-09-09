@@ -21,6 +21,7 @@ alias grm="git status | grep deleted | awk '{\$1=\$2=\"\"; print \$0}' | \
 
 
 # DAH
+alias g="git"
 
 # Show files ignored by git:
 alias gign="git ls-files -o -i --exclude-standard"
