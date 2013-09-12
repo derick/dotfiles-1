@@ -36,7 +36,7 @@ setopt HIST_REDUCE_BLANKS
 
 # don't expand aliases _before_ completion has finished
 #   like: git comm-[tab]
-setopt complete_aliases
+unsetopt complete_aliases # added by DAH to attempt to allow tabbed autocompleting to happen even when using aliases.  ie, 'c tool<tab>' will work as 'cd toolbox'
 
 zle -N newtab
 
